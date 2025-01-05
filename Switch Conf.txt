@@ -1,0 +1,33 @@
+
+hostname Switch0
+
+interface Vlan1
+ ip address 192.168.1.2 255.255.255.0
+ no shutdown
+
+ip default-gateway 192.168.1.1
+
+line console 0
+ password pxl
+ login
+
+enable secret pxl
+service password-encryption
+
+
+
+hostname Switch1
+
+interface Vlan1
+ ip address 192.168.2.2 255.255.255.0
+ no shutdown
+
+ip default-gateway 192.168.2.1
+
+line console 0
+ password pxl
+ login
+
+enable secret pxl
+service password-encryption
+

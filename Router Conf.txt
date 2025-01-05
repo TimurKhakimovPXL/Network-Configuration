@@ -1,0 +1,50 @@
+
+hostname Router1
+
+interface GigabitEthernet0/0/0
+ description LAN Subnet1
+ ip address 192.168.1.1 255.255.255.0
+ ipv6 address 2001:db8:1::1/64
+ ipv6 enable
+ ipv6 dhcp server DHCPv6_POOL1
+ ipv6 nd managed-config-flag
+ ipv6 nd other-config-flag
+
+interface GigabitEthernet0/0/1
+ description LAN Subnet2
+ ip address 192.168.2.1 255.255.255.0
+ ipv6 address 2001:db8:2::1/64
+ ipv6 enable
+ ipv6 dhcp server DHCPv6_POOL2
+ ipv6 nd managed-config-flag
+ ipv6 nd other-config-flag
+
+ipv6 unicast-routing
+-
+ipv6 dhcp pool DHCPv6_POOL1
+ address prefix 2001:db8:1::/64 lifetime 172800 86400
+ dns-server 2001:4860:4860::8888
+ domain-name subnet1.local
+
+ipv6 dhcp pool DHCPv6_POOL2
+ address prefix 2001:db8:2::/64 lifetime 172800 86400
+ dns-server 2001:4860:4860::8888
+ domain-name subnet2.local
+
+line console 0
+ password pxl
+ login
+
+line vty 0 15
+ login local
+ transport input ssh
+end
+
+enable secret pxl
+service password-encryption
+
+ip domain-name pxl.be
+crypto key generate rsa general-keys modulus
+ 1024
+
+username admin password pxl
